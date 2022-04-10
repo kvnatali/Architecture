@@ -1,4 +1,3 @@
-CMakeFiles/*
 .vscode/*
 build/*
 tests.cpp
