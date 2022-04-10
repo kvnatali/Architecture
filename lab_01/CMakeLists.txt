@@ -29,7 +29,7 @@ add_executable(${EXAMPLE_BINARY} main.cpp
                                  database/users.cpp)
 
 
-target_include_directories(${EXAMPLE_BINARY} PRIVATE "${CMAKE_BINARY_DIR}/lab_01")
+target_include_directories(${EXAMPLE_BINARY} PRIVATE "${CMAKE_BINARY_DIR}")
 target_compile_options(${EXAMPLE_BINARY} PRIVATE -Wall -Wextra -pedantic -Werror)
 
 

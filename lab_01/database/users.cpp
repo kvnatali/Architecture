@@ -37,8 +37,7 @@ namespace database
                         <<"login varchar(255) not null,"
                         <<"first_name varchar(255),"
                         <<"last_name varchar(255),"
-                        <<"age int,"
-                        <<"created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
+                        <<"age varchar(255),"
                         <<"CONSTRAINT pk_users PRIMARY KEY (id),"
                         <<"CONSTRAINT c_login UNIQUE (login)"
                         <<");",
@@ -62,7 +61,6 @@ namespace database
     {
         Poco::JSON::Object::Ptr root = new Poco::JSON::Object();
 
-        root->set("id", _id);
         root->set("login", _login);
         root->set("first_name", _first_name);
         root->set("last_name", _last_name);
@@ -78,7 +76,6 @@ namespace database
         Poco::Dynamic::Var result = parser.parse(str);
         Poco::JSON::Object::Ptr object = result.extract<Poco::JSON::Object::Ptr>();
 
-        user.id() = object->getValue<long>("id");
         user.login() = object->getValue<std::string>("login");
         user.first_name() = object->getValue<std::string>("first_name");
         user.last_name() = object->getValue<std::string>("last_name");
@@ -95,8 +92,7 @@ namespace database
             Poco::Data::Session session = database::Database::get().create_session();
             Poco::Data::Statement select(session);
             Users u;
-            select << "SELECT id, login, first_name, last_name, age FROM users where id=?",
-                into(u._id),
+            select << "SELECT login, first_name, last_name, age FROM users where id=?",
                 into(u._login),
                 into(u._first_name),
                 into(u._last_name),
@@ -125,23 +121,24 @@ namespace database
         }
     }
 
-    std::vector<Users> Users::read_all()
+    std::vector<Users>  Users::read_by_login(std::string login)
     {
         try
         {
             Poco::Data::Session session = database::Database::get().create_session();
-            Statement select(session);
+            Poco::Data::Statement select(session);
             std::vector<Users> result;
             Users u;
-            select << "SELECT id, login, first_name, last_name, age FROM users",
-                into(u._id),
+            login = "%" + login + "%";
+            select << "SELECT login, first_name, last_name, age FROM users where login like ?",
                 into(u._login),
                 into(u._first_name),
                 into(u._last_name),
                 into(u._age),
                 
+                use(login),
                 range(0, 1); //  iterate over result set one row at a time
-
+  
             while (!select.done())
             {
                 if(select.execute())
@@ -163,6 +160,48 @@ namespace database
         }
     }
 
+    std::vector<Users> Users::read_all()
+    {
+        try
+        {
+            Poco::Data::Session session = database::Database::get().create_session();
+            Statement select(session);
+            std::vector<Users> result;
+            Users u;
+            std::cout << "SELECT login,first_name,last_name,age FROM users" << std::endl;
+            select << "SELECT login,first_name,last_name,age FROM users",
+                into(u._login),
+                into(u._first_name),
+                into(u._last_name),
+                into(u._age),
+                
+                range(0, 1); //  iterate over result set one row at a time
+            while (!select.done())
+            {
+                if(select.execute())
+                result.push_back(u);
+            }
+            return result;
+        }
+
+        catch (Poco::Data::MySQL::ConnectionException &e)
+        {
+            std::cout << "connection:" << e.what() << std::endl;
+            throw;
+        }
+        catch (Poco::Data::MySQL::StatementException &e)
+        {
+
+            std::cout << "statement:" << e.what() << std::endl;
+            throw;
+        }
+        catch (Poco::Data::MySQL::MySQLException &e)
+        {
+            std::cout << "MySQLException: " << e.what() << std::endl;
+            throw;
+        }
+    }
+
     std::vector<Users> Users::search(std::string first_name, std::string last_name)
     {
         try
@@ -173,8 +212,7 @@ namespace database
             Users u;
             first_name+="%";
             last_name+="%";
-            select << "SELECT id, login, first_name, last_name, age FROM users where first_name LIKE ? and last_name LIKE ?",
-                into(u._id),
+            select << "SELECT login, first_name, last_name, age FROM users where first_name LIKE ? and last_name LIKE ?",
                 into(u._login),
                 into(u._first_name),
                 into(u._last_name),
@@ -213,6 +251,7 @@ namespace database
             Poco::Data::Session session = database::Database::get().create_session();
             Poco::Data::Statement insert(session);
 
+            std::cout << "INSERT INTO users (login,first_name,last_name,age) VALUES(?, ?, ?, ?)" << std::endl;
             insert << "INSERT INTO users (login,first_name,last_name,age) VALUES(?, ?, ?, ?)",
                 use(_login),
                 use(_first_name),
