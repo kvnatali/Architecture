@@ -58,8 +58,9 @@ public:
     HTTPRequestHandler* createRequestHandler(
         const HTTPServerRequest& request)
     {
-        static std::string user="/user"; 
-        if (startsWith(request.getURI(),user)) return new UserHandler(_format);
+        static std::string person="/person"; 
+        std::cout << person << std::endl;
+        if (startsWith(request.getURI(), person)) return new UserHandler(_format);
         return 0;
     }
 

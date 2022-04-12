@@ -80,6 +80,7 @@ public:
                        HTTPServerResponse &response)
     {
         HTMLForm form(request, request.stream());
+
         response.setChunkedTransferEncoding(true);
         response.setContentType("application/json");
         std::ostream &ostr = response.send();
@@ -99,27 +100,9 @@ public:
                 return;
             }
         }
-        else if (form.has("search"))
-        {
-            try
-            {
-                std::string  fn = form.get("first_name");
-                std::string  ln = form.get("last_name");
-                auto results = database::Users::search(fn,ln);
-                Poco::JSON::Array arr;
-                for (auto s : results)
-                    arr.add(s.toJSON());
-                Poco::JSON::Stringifier::stringify(arr, ostr);
-            }
-            catch (...)
-            {
-                ostr << "{ \"result\": false , \"reason\": \"not gound\" }";
-                return;
-            }
-            return;
-        }
         else if (form.has("add"))
         {
+            std::cout << "add" << std::endl;
             if (form.has("login"))
                 if (form.has("first_name"))
                     if (form.has("last_name"))
@@ -171,6 +154,45 @@ public:
                         }
         }
 
+        else if (form.has("login"))
+        {
+            std::string login = form.get("login");
+            try
+            {
+                auto results = database::Users::read_by_login(login);
+                Poco::JSON::Array arr;
+                for (auto s : results)
+                    arr.add(s.toJSON());
+                Poco::JSON::Stringifier::stringify(arr, ostr);
+                return;
+            }
+            catch (...)
+            {
+                ostr << "{ \"result\": false , \"reason\": \"not found\" }";
+                return;
+            }
+
+        }
+        else if (form.has("search"))
+        {
+            try
+            {
+                std::string  fn = form.get("first_name");
+                std::string  ln = form.get("last_name");
+                auto results = database::Users::search(fn,ln);
+                Poco::JSON::Array arr;
+                for (auto s : results)
+                    arr.add(s.toJSON());
+                Poco::JSON::Stringifier::stringify(arr, ostr);
+            }
+            catch (...)
+            {
+                ostr << "{ \"result\": false , \"reason\": \"not found\" }";
+                return;
+            }
+            return;
+        }
+        
         auto results = database::Users::read_all();
         Poco::JSON::Array arr;
         for (auto s : results)

@@ -35,6 +35,7 @@ namespace database
 
             static void init();
             static Users read_by_id(long id);
+            static std::vector<Users> read_by_login(std::string login);
             static std::vector<Users> read_all();
             static std::vector<Users> search(std::string first_name,std::string last_name);
             void save_to_mysql();
