@@ -3,7 +3,7 @@
 Использование proxy sql для шардинга данных в несколько инстансов MySQL https://proxysql.com/
 
 ## Подготовка базы данных
-
+````sql
 create table if not exists `users` (
       `id` INT AUTO_INCREMENT
     , `login` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci not null
@@ -14,7 +14,7 @@ create table if not exists `users` (
     , `CONSTRAINT` pk_users PRIMARY KEY (id)
     , `CONSTRAINT` c_login UNIQUE (login)
 );
-
+````
 ## Запросы
 
 Пример готовых запросов сохранен в коллекцию postman `Arch.postman_collection.json`
@@ -33,8 +33,9 @@ http://localhost:8080/person?first_name=маска&last_name=маска
 
 
 ## Консольные команды
-
+````
 cmake .
 /usr/bin/cmake --build /home/natali/git/Architecture/lab_02/build --config Debug --target lab_02 -j 6 --
 
 sudo ./build/lab_02 --host=127.0.0.1  --port=6033 --login=test --password=pzjqUkMnc7vfNHET --database=sql_test --init_db
+````
