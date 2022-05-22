@@ -1,0 +1,168 @@
+{
+	"info": {
+		"_postman_id": "00acf465-580d-436b-b9c5-3cc43349495d",
+		"name": "Arch",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get person",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8080/person?login=EGordeeva",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"person"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "3",
+							"disabled": true
+						},
+						{
+							"key": "search",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "first_name",
+							"value": "Констант",
+							"disabled": true
+						},
+						{
+							"key": "last_name",
+							"value": "Агеев",
+							"disabled": true
+						},
+						{
+							"key": "login",
+							"value": "EGordeeva"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Person",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "add",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "login",
+							"value": "nivanova",
+							"type": "text"
+						},
+						{
+							"key": "first_name",
+							"value": "Natalia",
+							"type": "text"
+						},
+						{
+							"key": "last_name",
+							"value": "Ivanova",
+							"type": "text"
+						},
+						{
+							"key": "age",
+							"value": "25",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8080/person",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"person"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Person Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "add",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "login",
+							"value": "3tttttttttttttt",
+							"type": "text"
+						},
+						{
+							"key": "first_name",
+							"value": "Inessa",
+							"type": "text"
+						},
+						{
+							"key": "last_name",
+							"value": "Sidoro",
+							"type": "text"
+						},
+						{
+							"key": "age",
+							"value": "22",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8080/person",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"person"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

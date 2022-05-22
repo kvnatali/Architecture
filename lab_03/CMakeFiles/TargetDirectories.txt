@@ -1,0 +1,3 @@
+/home/natali/git/Architecture/lab_03/CMakeFiles/edit_cache.dir
+/home/natali/git/Architecture/lab_03/CMakeFiles/rebuild_cache.dir
+/home/natali/git/Architecture/lab_03/CMakeFiles/lab_03.dir

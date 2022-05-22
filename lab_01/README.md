@@ -20,6 +20,7 @@ mysql> source createTable.sql;
 mysql> select * from users;
 ```
 
-# 2) #
+# 2) Подключение к БД 
 
+ mysql --host=localhost --user=user1 --password=1qaz@WSX study
 
