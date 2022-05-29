@@ -136,7 +136,9 @@ public:
                             {
                                 try
                                 {
-                                    user.save_to_mysql();
+                                    static int i=0;
+                                    user.send_to_queue();
+                                    std::cout << "send to queue: " << std::to_string(++i)  << std::endl;
                                     ostr << "{ \"result\": true }";
                                     return;
                                 }

@@ -52,3 +52,8 @@ cd ~/git/Architecture/lab_04/
 ./start.sh
 ./start_writer.sh
 ````
+
+### как зайти в запущенный контейнер
+```
+docker exec -it kafka-node-1 /bin/bash
+```
